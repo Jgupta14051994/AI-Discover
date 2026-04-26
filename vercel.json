@@ -1,1 +1,26 @@
-{"version": 2, "builds": [{"src": "frontend/package.json", "use": "@vercel/react"}, {"src": "backend/app.py", "use": "@vercel/python"}], "routes": [{"src": "/api/(.*)", "dest": "backend/$1"}, {"src": "/(.*)", "dest": "frontend/$1"}], "env": {"MY_ENV_VAR": "value"}}
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/app.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/build/index.html"
+    }
+  ]
+}
